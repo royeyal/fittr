@@ -1,15 +1,69 @@
+@charset "UTF-8";
+
+:root {
+  --color-primary: #000;
+  --color-alternate: #fff;
+  --color-text: #2D2D2D;
+}
+
+
 @supports (color: color(display-p3 1 1 1)) {
   :root {
     --e-global-color-accent: oklch(64.71% 0.311 25.66);
   }
 }
 
-.section-alternate {
-
+/* Elementor Buttons */
+.button-secondary .elementor-button {
+  background-color: transparent;
+  color: white;
+  overflow: hidden;
+  z-index: 1;
+  position: relative;
 }
 
+.button-secondary .elementor-button:focus {
+  background-color: #fff;
+}
+
+.button-secondary .elementor-button:hover {
+  background-color: transparent;
+  border-color: #fff;
+  color: #fff;
+}
+
+.button-secondary .elementor-button::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  content: '';
+  transition: transform .3s;
+  transform-origin: right top;
+  transform: scale(0, 1);
+}
+
+.button-secondary .elementor-button::before {
+  background-color: var(--e-global-color-accent);
+}
+
+.button-secondary .elementor-button:hover::before {
+  transform-origin: left top;
+  transform: scale(1, 1);
+}
+
+.link-color-secondary a {
+  color: var(--e-global-color-secondary);
+}
+
+.section-alternate {}
+
 .text-span {
-  
+  font-size: .65em;
+  line-height: .65em;
+  display: block;
 }
 
 ::selection {
@@ -18,24 +72,295 @@
   text-shadow: none;
 }
 
+.e-con.e-con-full {
+  --padding-top: 0;
+  --padding-right: 0;
+  --padding-bottom: 0;
+  --padding-left: 0;
+}
+
 /* Class: .section-padding */
 .e-parent.section-padding {
-    --padding-top: 3.75rem;
-    --padding-right: 3.75rem;
-    --padding-bottom: 3.75rem;
-    --padding-left: 3.75rem;
+  --padding-top: 3.75rem;
+  --padding-right: 3.75rem;
+  --padding-bottom: 3.75rem;
+  --padding-left: 3.75rem;
 }
 
 @media (max-width: 1024px) {
-    .e-parent.section-padding {
-        --padding-top: 1.75rem;
-        --padding-right: 1rem;
-        --padding-bottom: 1.75rem;
-        --padding-left: 1rem;
-    }
+  .e-parent.section-padding {
+    --padding-top: 1.75rem;
+    --padding-right: 1rem;
+    --padding-bottom: 1.75rem;
+    --padding-left: 1rem;
+  }
 }
 
 /* Set color style to inherit */
 .inherit-color * {
   color: inherit;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+}
+
+p:last-child {
+  margin-block-end: 0;
+}
+
+/***
+* Shrinking Sticky header, Elementor Container edition
+* class: .sticky-header
+* This will only work with the Elementor container section
+* the header uses additional 3 classes to gain higher CSS specificity and to avoid adding !important
+*/
+header.sticky-header.e-con.elementor-element {
+  --header-height: 90px;
+  /* Set your own header height */
+  --shrink-header-to: 0.8;
+  /* Shrinks to 60%, values: 0.1 to 1 */
+  --transition-timing: .45s cubic-bezier(.4, 0, .2, 1);
+  /* values: .1s to 0.5s (or more), replace "cubic-bezier(.4, 0, .2, 1)" with "ease" if you need a simpler transition */
+  background-color: rgba(0, 0, 0, 1);
+  /* Set your own background color */
+
+  --min-height: var(--header-height);
+  --transition: background-color var(--transition-timing),
+    backdrop-filter var(--transition-timing),
+    box-shadow var(--transition-timing),
+    min-height var(--transition-timing);
+}
+
+header.sticky-header.e-con.elementor-element.elementor-sticky--effects {
+  background-color: rgba(0, 0, 0, .8);
+  /* Set your own background color on scroll */
+  box-shadow: 0px 4px 33px 1px rgba(0, 0, 0, .07);
+  /* Delete this line if you don't want shadow on scroll */
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  /* Delete this line if you don't use transparency on scroll */
+  backdrop-filter: saturate(180%) blur(20px);
+  /* Delete this line if you don't use transparency on scroll */
+  --min-height: calc(var(--header-height) * var(--shrink-header-to));
+}
+
+/***
+* class: .logo
+* Add the class "logo" to your logo to scale your logo to 80% on scroll
+*/
+header.sticky-header .logo img,
+header.sticky-header .logo.elementor-widget-theme-site-logo img,
+header.sticky-header .logo .elementor-icon svg {
+  transition: transform var(--transition-timing),
+    filter var(--transition-timing);
+}
+
+header.sticky-header.elementor-sticky--effects .logo img,
+header.sticky-header.elementor-sticky--effects .logo.elementor-widget-theme-site-logo img,
+header.sticky-header.elementor-sticky--effects .logo .elementor-icon svg {
+  transform: scale(0.60);
+  /* Shrinks logo to 60%, values: 0.10 to 1 */
+}
+
+header.sticky-header .logo .elementor-icon svg {
+  width: auto;
+}
+
+/***
+* Optional: Shorter header on mobile
+*/
+@media only screen and (max-width: 767px) {
+
+  header.sticky-header,
+  header.sticky-header.e-con.elementor-element {
+    --header-height: 70px;
+  }
+
+  header.sticky-header.elementor-sticky--effects .logo img,
+  header.sticky-header.elementor-sticky--effects .logo.elementor-widget-theme-site-logo img,
+  header.sticky-header.elementor-sticky--effects .logo .elementor-icon svg {
+    transform-origin: center right;
+  }
+}
+
+header.sticky-header.elementor-sticky--effects .logo img {
+  transform: scale(.6);
+}
+
+header.sticky-header .logo img:hover {
+  filter: drop-shadow(0 0 10px var(--e-global-color-accent));
+}
+
+.elementor-nav-menu--main .elementor-item:hover {
+  box-shadow: 0 0 10px 4px var(--e-global-color-accent);
+}
+
+.elementor-location-single header.hero-bg-filter>.elementor-motion-effects-container>.elementor-motion-effects-layer {
+  filter: grayscale(1);
+}
+
+.second-word {
+  color: var(--e-global-color-accent);
+}
+
+.single-post.content-max-width .entry-content blockquote,
+.category.content-max-width .entry-content blockquote,
+.page-with-background-title.content-max-width .entry-content blockquote,
+.single-page-article blockquote,
+.elementor-page blockquote {
+  border-style: none;
+  font-style: normal;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 100%;
+}
+
+.single-post.content-max-width .entry-content blockquote::before,
+.category.content-max-width .entry-content blockquote::before,
+.page-with-background-title.content-max-width .entry-content blockquote::before,
+.single-page-article blockquote::before,
+.elementor-page blockquote::before,
+.single-post.content-max-width .entry-content blockquote::after,
+.category.content-max-width .entry-content blockquote::after,
+.page-with-background-title.content-max-width .entry-content blockquote::after,
+.single-page-article blockquote::after,
+.elementor-page blockquote::after {
+  bottom: 0;
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 25px;
+}
+
+.single-post.content-max-width .entry-content blockquote::after,
+.category.content-max-width .entry-content blockquote::after,
+.page-with-background-title.content-max-width .entry-content blockquote::after,
+.single-page-article blockquote::after,
+.elementor-page blockquote::after {
+  left: 100%;
+}
+
+.single-post.content-max-width .entry-content blockquote p,
+.category.content-max-width .entry-content blockquote p,
+.page-with-background-title.content-max-width .entry-content blockquote p,
+.single-page-article blockquote p,
+.elementor-page blockquote p {
+  font-size: 1.5em;
+  margin: 0;
+  padding: 0 15%;
+}
+
+.single-post.content-max-width .entry-content blockquote p::before,
+.category.content-max-width .entry-content blockquote p::before,
+.page-with-background-title.content-max-width .entry-content blockquote p::before,
+.single-page-article blockquote p::before,
+.elementor-page blockquote p::before,
+.single-post.content-max-width .entry-content blockquote p::after,
+.category.content-max-width .entry-content blockquote p::after,
+.page-with-background-title.content-max-width .entry-content blockquote p::after,
+.single-page-article blockquote p::after,
+.elementor-page blockquote p::after {
+  color: var(--e-global-color-accent);
+  font-family: sans-serif;
+  font-size: 3em;
+  font-weight: bold;
+  position: absolute;
+}
+
+.single-post.content-max-width .entry-content blockquote p::before,
+.category.content-max-width .entry-content blockquote p::before,
+.page-with-background-title.content-max-width .entry-content blockquote p::before,
+.single-page-article blockquote p::before,
+.elementor-page blockquote p::before {
+  bottom: 1rem;
+  content: '“';
+  left: 16px;
+}
+
+@media (max-width: 767px) {
+
+  .single-post.content-max-width .entry-content blockquote p::before,
+  .category.content-max-width .entry-content blockquote p::before,
+  .page-with-background-title.content-max-width .entry-content blockquote p::before,
+  .single-page-article blockquote p::before,
+  .elementor-page blockquote p::before {
+    bottom: -4rem;
+    left: 0;
+    line-height: 1em;
+  }
+}
+
+.single-post.content-max-width .entry-content blockquote p::after,
+.category.content-max-width .entry-content blockquote p::after,
+.page-with-background-title.content-max-width .entry-content blockquote p::after,
+.single-page-article blockquote p::after,
+.elementor-page blockquote p::after {
+  content: '”';
+  right: 0;
+  top: 1rem;
+}
+
+@media (max-width: 767px) {
+
+  .single-post.content-max-width .entry-content blockquote p::after,
+  .category.content-max-width .entry-content blockquote p::after,
+  .page-with-background-title.content-max-width .entry-content blockquote p::after,
+  .single-page-article blockquote p::after,
+  .elementor-page blockquote p::after {
+    line-height: 1em;
+    right: 0;
+    top: 0;
+  }
+}
+
+@media screen and (min-width: 750px) {
+
+  .single-post.content-max-width .entry-content blockquote,
+  .category.content-max-width .entry-content blockquote,
+  .page-with-background-title.content-max-width .entry-content blockquote,
+  .single-page-article blockquote,
+  .elementor-page blockquote {
+    left: 0;
+    width: calc(100% + 50px);
+  }
+
+  .single-post.content-max-width .entry-content blockquote::before,
+  .category.content-max-width .entry-content blockquote::before,
+  .page-with-background-title.content-max-width .entry-content blockquote::before,
+  .single-page-article blockquote::before,
+  .elementor-page blockquote::before {
+    display: none;
+  }
+
+  .single-post.content-max-width .entry-content blockquote::after,
+  .category.content-max-width .entry-content blockquote::after,
+  .page-with-background-title.content-max-width .entry-content blockquote::after,
+  .single-page-article blockquote::after,
+  .elementor-page blockquote::after {
+    top: -5rem;
+    width: 50px;
+  }
+
+  .single-post.content-max-width .entry-content blockquote p,
+  .category.content-max-width .entry-content blockquote p,
+  .page-with-background-title.content-max-width .entry-content blockquote p,
+  .single-page-article blockquote p,
+  .elementor-page blockquote p {
+    font-size: 2em;
+    line-height: 1.25em;
+    padding: 0 50px 22px;
+  }
+
+  .single-post.content-max-width .entry-content blockquote p::after,
+  .category.content-max-width .entry-content blockquote p::after,
+  .page-with-background-title.content-max-width .entry-content blockquote p::after,
+  .single-page-article blockquote p::after,
+  .elementor-page blockquote p::after {
+    bottom: -56px;
+  }
+}
+
+.highlight {
+  color: var(--e-global-color-accent);
 }
