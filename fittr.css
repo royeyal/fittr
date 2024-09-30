@@ -8,6 +8,10 @@
 
 }
 
+.text-span {
+  
+}
+
 ::selection {
   color: white;
   background-color: var(--e-global-color-accent);
