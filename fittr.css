@@ -365,6 +365,6 @@ header.sticky-header .logo img:hover {
   color: var(--e-global-color-accent);
 }
 
-elementor-element:not(.elementor-motion-effects-element-type-background) {
+.elementor-element:not(.elementor-motion-effects-element-type-background) {
   filter: grayscale(1);
 }
